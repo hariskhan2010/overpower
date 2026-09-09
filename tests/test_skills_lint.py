@@ -16,7 +16,14 @@ class SkillsLintTest(unittest.TestCase):
         return sorted(SKILLS.glob("*/SKILL.md"))
 
     def test_there_are_skills(self):
-        self.assertGreaterEqual(len(self.skills()), 5)
+        self.assertGreaterEqual(len(self.skills()), 10)
+
+    def test_router_lists_every_skill(self):
+        """using-overpower's skill table must stay in sync with skills/ ."""
+        router = (SKILLS / "using-overpower" / "SKILL.md").read_text(encoding="utf-8")
+        for name in (p.parent.name for p in self.skills()):
+            self.assertIn(f"`{name}`", router,
+                          f"using-overpower does not list the `{name}` skill")
 
     def test_frontmatter_is_valid_and_minimal(self):
         for skill in self.skills():

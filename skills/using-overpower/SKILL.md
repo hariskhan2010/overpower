@@ -46,6 +46,24 @@ Announce the tier in one line: `Tier: T2 (touches routing + the store + a migrat
    it runs the change-impact gate on every fix.
 6. **Finish.** Use `finishing-work` — archives `.overpower/`, never deletes it.
 
+**Any time a test fails unexpectedly or a bug appears** — at any tier, in any
+phase — use `systematic-debugging` before attempting a fix.
+
+## The skills
+
+| Skill | Use it |
+|---|---|
+| `using-overpower` | session start / after compaction (this file) |
+| `brainstorming` | T2/T3, request is fuzzy, before a plan |
+| `writing-plans` | T2/T3, spec agreed |
+| `using-git-worktrees` | T2/T3, spec approved; before parallel subagents |
+| `executing-work` | a plan exists, or a clear T1 task |
+| `test-driven-development` | writing any T1+ implementation code |
+| `reviewing-changes` | between tasks; before finishing; before any fix |
+| `systematic-debugging` | a test fails unexpectedly or a bug is reported |
+| `finishing-work` | all tasks done and reviewed |
+| `writing-skills` | creating or editing an overpower skill |
+
 ## The `.overpower/` directory
 
 At the repo root. `progress.md` is an **append-only** log — phase changes, task

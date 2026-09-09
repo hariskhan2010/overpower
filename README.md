@@ -27,25 +27,30 @@ built to sidestep the failure classes that fill superpowers' issue tracker.
 
 Or point Claude Code at a local checkout for development.
 
-## The skills
+## The skills (10)
 
 | Skill | Fires when | Does |
 |---|---|---|
-| `using-overpower` | session start | Bootstraps the system; classifies the task tier |
-| `writing-plans` | a feature needs a plan | Breaks work into verifiable tasks; opens the durable state file |
-| `executing-work` | a plan or a task exists | Runs the tier-appropriate flow; verifies real subagent dispatch |
+| `using-overpower` | session start / after compaction | Bootstraps; classifies the task tier |
+| `brainstorming` | fuzzy T2/T3 request, before a plan | Idea → agreed spec, evidence-backed |
+| `writing-plans` | a feature needs a plan | Verifiable tasks; opens the durable state file |
+| `using-git-worktrees` | T2/T3, spec approved | Isolated workspace; checks repo state first |
+| `executing-work` | a plan or a clear task exists | Tier-appropriate flow; verifies real subagent dispatch |
 | `test-driven-development` | writing any implementation | RED-for-the-right-reason → GREEN → REFACTOR |
-| `reviewing-changes` | between tasks / before finishing | Reviews against the plan **and** traces each fix's blast radius |
-
-More skills (`brainstorming`, `systematic-debugging`, `using-git-worktrees`,
-`finishing-work`, `writing-skills`) land as they're written and tested — see
-[`CHANGELOG.md`](CHANGELOG.md).
+| `reviewing-changes` | between tasks / before a fix | Reviews against the plan **and** traces each fix's blast radius |
+| `systematic-debugging` | a test fails / a bug appears | Reproduce → locate → **explain** → fix → record |
+| `finishing-work` | tasks done and reviewed | Verify, merge decision, **archive** state (never delete) |
+| `writing-skills` | creating/editing a skill | Keeps skills valid and consistent |
 
 ## Status
 
-**v0.1 — early.** The skeleton, the state model, and the five core skills.
-Not yet exercised across a large range of real sessions. Treat it as a working
-draft you tune to how you work — that is the point of owning it rather than
+**v0.2 — the full skill set, not yet battle-tested.** The 10 skills, the
+skeleton, the state model. The structural pieces (Claude-Code-only, the hook,
+append-only state, the lint tests) are done and verified. The behavioral pieces
+(the agent actually classifies tiers, runs the change-impact gate, won't
+fabricate subagents) are written into the skills but need real sessions to
+confirm — that's the open work, a skill-eval harness. Treat it as a working
+draft you tune to how you work; that is the point of owning it rather than
 installing a product.
 
 ## License
