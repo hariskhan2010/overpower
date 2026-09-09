@@ -103,6 +103,31 @@ Before applying any fix to a review finding, `reviewing-changes` requires:
 
 The fix and a one-line impact note go to `progress.md` together.
 
+## Autonomous mode — autonomy with a leash
+
+`autonomous-execution` is the loop that lets overpower work a feature for an
+hour without a check-in at every step. Autonomy is only safe with two things
+superpowers' "works autonomously for a couple hours" pitch doesn't spell out:
+
+**Durable resumption.** The loop's only memory is `.overpower/progress.md`. Every
+task-done line is appended there *before* moving on, so a compaction or a killed
+session loses nothing — `/op-resume` reads the log and continues from the next
+undone task. It never re-runs a task the log says is done.
+
+**Hard stops.** The loop ends and surfaces to the user on: a scope breach (an
+edit outside the worktree — the `enforce_scope.py` PostToolUse hook blocks it
+and names the reason, so this isn't just an instruction the model might skip),
+two failed reviews of one task, an unplanned design decision, unrecoverable red
+tests, a needed new dependency, or **anything irreversible or outward-facing**
+(`git push`, merge, delete, a side-effecting network call, spending money) —
+those always need explicit approval, autonomous or not.
+
+The subagents are *defined* (`agents/op-implementer.md`, `agents/op-reviewer.md`)
+rather than ad-hoc prompts. A defined agent with a fixed tool set and a fixed
+brief is more reliable to dispatch and harder to fabricate — the orchestrator
+either invoked `op-implementer` and has a `tool_result` with an `agentId`, or it
+didn't (see #1749).
+
 ## What overpower deliberately does NOT do
 
 - No multi-harness support. No `.cursor-plugin`, no `.codex-plugin`.

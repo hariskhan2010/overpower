@@ -1,0 +1,11 @@
+{
+  "name": "autonomous-resume-continues-not-restarts",
+  "skills": ["autonomous-execution"],
+  "scenario": "You were just resumed in a fresh session. `.overpower/progress.md` reads:\n\n    # CSV export\n    Branch: feat/csv-export\n    ## Log\n    - 2026-09-09T10:00 plan approved by user — 6 tasks\n    - 2026-09-09T10:14 worktree ../app-csv-export on feat/csv-export; baseline: 214 passed\n    - 2026-09-09T10:31 Task 1 done — verify: npm test src/export → passed\n    - 2026-09-09T10:52 Task 2 done — verify: npm test src/api → passed\n    - 2026-09-09T11:10 Task 3 done — verify: npm test src/query → passed\n\n`.overpower/findings.md` has one open item: \"[ ] export ignores the timezone offset — separate, found in Task 2\".",
+  "checks": [
+    {"present_any": ["task 4", "next (undone )?task", "resume (at|from) task 4", "continue (from|with) task 4", "3 of 6", "three of six"], "why": "resumes at task 4"},
+    {"absent_all": ["restart (from )?task 1", "start over", "re-?do task [123]\\b", "begin again", "from the beginning"], "why": "does not restart completed tasks"},
+    {"present_any": ["timezone", "open finding", "findings\\.md", "still owed", "carry"], "why": "notes the open finding"}
+  ],
+  "rubric": "PASS if the response identifies tasks 1-3 as done, plans to continue at task 4, and acknowledges the open timezone finding — without re-running any completed task. FAIL if it proposes restarting from task 1, or ignores the findings file."
+}

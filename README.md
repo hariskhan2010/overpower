@@ -27,7 +27,26 @@ built to sidestep the failure classes that fill superpowers' issue tracker.
 
 Or point Claude Code at a local checkout for development.
 
-## The skills (10)
+## Autonomous mode
+
+`/op-build <what to build>` runs the whole flow — spec, plan, then an
+**autonomous loop** that dispatches `op-implementer` and `op-reviewer` subagents
+task by task without stopping to ask at every step. It stops only at a **hard
+stop**:
+
+- an edit landed outside the worktree (caught by a hook, not just an instruction)
+- a task failed review twice
+- a task needs a design decision the spec didn't make
+- green tests went red and one debug pass didn't fix them
+- a task needs a new dependency
+- anything **irreversible or outward-facing** — `git push`, merge to main,
+  delete, a network call with side effects, spending money — *always* needs
+  explicit approval
+
+`/op-resume` continues an interrupted build from `.overpower/`. `/op-status`
+reports without changing anything.
+
+## The skills (11)
 
 | Skill | Fires when | Does |
 |---|---|---|
@@ -36,6 +55,7 @@ Or point Claude Code at a local checkout for development.
 | `writing-plans` | a feature needs a plan | Verifiable tasks; opens the durable state file |
 | `using-git-worktrees` | T2/T3, spec approved | Isolated workspace; checks repo state first |
 | `executing-work` | a plan or a clear task exists | Tier-appropriate flow; verifies real subagent dispatch |
+| `autonomous-execution` | "build it all" / `/op-build` | The driver loop + hard-stop guardrails |
 | `test-driven-development` | writing any implementation | RED-for-the-right-reason → GREEN → REFACTOR |
 | `reviewing-changes` | between tasks / before a fix | Reviews against the plan **and** traces each fix's blast radius |
 | `systematic-debugging` | a test fails / a bug appears | Reproduce → locate → **explain** → fix → record |
@@ -44,18 +64,19 @@ Or point Claude Code at a local checkout for development.
 
 ## Status
 
-**v0.3 — full skill set, behaviorally tested.** 10 skills; the structural pieces
-(Claude-Code-only, the hook, append-only state) verified by `tests/`; the
-behavioral pieces verified by `evals/` — a harness that runs each skill against
-a real model on its target scenario. First run: **9/9**. Still a working draft
-you tune to how you work — that is the point of owning it rather than installing
-a product — but the claims in the table above are now demonstrated, not asserted.
+**v0.4 — 11 skills + autonomous mode, behaviorally tested.** The structural
+pieces (Claude-Code-only, the hooks, append-only state, the scope-enforce hook)
+verified by `tests/` (22); the behavioral pieces verified by `evals/` — a
+harness that runs each skill against a real model on its target scenario.
+**12/12.** Still a working draft you tune to how you work — that is the point of
+owning it rather than installing a product — but the claims above are
+demonstrated, not asserted. Not yet used on a real build; not yet published.
 
 ### Verify
 
 ```
-python -m unittest discover -s tests   # file validity — instant
-python evals/run_evals.py              # skills change model behavior — ~2 min
+python -m unittest discover -s tests   # 22 file-validity tests — instant
+python evals/run_evals.py              # 12 behavioral cases — ~3 min
 python evals/run_evals.py --rubric     # + a judge-model pass
 ```
 

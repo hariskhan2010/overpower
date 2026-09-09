@@ -49,6 +49,17 @@ Announce the tier in one line: `Tier: T2 (touches routing + the store + a migrat
 **Any time a test fails unexpectedly or a bug appears** — at any tier, in any
 phase — use `systematic-debugging` before attempting a fix.
 
+## Autonomous mode
+
+When the user wants the whole feature built with minimal check-ins — "build
+this", "do it all", or the `/op-build` command — run the spec + plan + worktree
+steps *with* the user, then hand execution to `autonomous-execution`: it loops
+through the tasks, dispatches `op-implementer` and `op-reviewer` subagents, and
+only stops at a **hard stop** (scope breach, repeated review failure, an
+unplanned design decision, red tests it can't fix, a new dependency, or anything
+irreversible/outward-facing — push, merge, delete, spend). `/op-resume` picks a
+build back up from `.overpower/`; `/op-status` reports without changing anything.
+
 ## The skills
 
 | Skill | Use it |
@@ -58,6 +69,7 @@ phase — use `systematic-debugging` before attempting a fix.
 | `writing-plans` | T2/T3, spec agreed |
 | `using-git-worktrees` | T2/T3, spec approved; before parallel subagents |
 | `executing-work` | a plan exists, or a clear T1 task |
+| `autonomous-execution` | run a whole feature end-to-end with minimal check-ins |
 | `test-driven-development` | writing any T1+ implementation code |
 | `reviewing-changes` | between tasks; before finishing; before any fix |
 | `systematic-debugging` | a test fails unexpectedly or a bug is reported |

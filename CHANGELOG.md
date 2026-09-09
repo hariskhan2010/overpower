@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.4.0] — 2026-09-09
+
+Autonomy: run a whole feature end-to-end, with guardrails.
+
+### Added
+
+- **`autonomous-execution` skill** — the driver loop. Picks the next ready
+  task, dispatches subagents, verifies each dispatch is real, reviews, acts on
+  findings, records, commits, repeats — until the plan is done or a **hard
+  stop** fires. Hard stops: a scope breach, a task that fails review twice, an
+  unplanned design decision, red tests one debug pass can't fix, a needed new
+  dependency, or anything irreversible/outward-facing (push, merge, delete,
+  spend) — those always need explicit approval.
+- **Commands** — `/op-build <what>` (full flow), `/op-resume` (continue from
+  `.overpower/`), `/op-status` (read-only report).
+- **Agents** — `op-implementer` (one task, test-first, inside the worktree) and
+  `op-reviewer` (two-stage + change-impact, edits nothing). Defined subagents
+  make dispatch more reliable than ad-hoc prompts (further hardening of #1749).
+- **`enforce_scope.py` PostToolUse hook** — during a live autonomous build, an
+  Edit/Write outside the worktree is blocked with a reason, so the scope-breach
+  hard stop fires automatically instead of by instruction (#1040, #2166).
+  Strict no-op with no active `.overpower/progress.md`.
+
+### Changed
+
+- `using-overpower` documents autonomous mode and lists the new skill.
+
 ## [0.3.0] — 2026-09-09
 
 The behavioral claims are now tested, not just asserted.
