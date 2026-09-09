@@ -1,18 +1,24 @@
 # overpower
 
-A build methodology for **Claude Code**, packaged as a plugin. It is a response
-to [`obra/superpowers`](https://github.com/obra/superpowers) — same idea (skills
-that make the agent work like a disciplined engineer), narrower target, and
-built to sidestep the failure classes that fill superpowers' issue tracker.
+A build methodology for coding agents. It is a response to
+[`obra/superpowers`](https://github.com/obra/superpowers) — same idea (skills
+that make the agent work like a disciplined engineer), built to sidestep the
+failure classes that fill superpowers' issue tracker.
+
+**Runs on any agent that reads skill files.** Full automation on **Claude Code**
+(a plugin, with hooks and delegates); on Cursor, Codex, Gemini CLI, Copilot,
+Aider and anything that reads `AGENTS.md`, the *method* is identical and the
+guarantees that can't be automatic become rules a review step checks — see
+[`SUPPORT.md`](SUPPORT.md).
 
 ## What's different
 
 | superpowers pain (issue) | overpower's answer |
 |---|---|
-| Breaks across 14 harnesses; hooks misfire per-platform (#2105, #2252, #1108, #2197, #2083) | **Claude Code only.** One target, current primitives, no compatibility layer. |
-| Still instructs removed `TodoWrite` / `Task*` tools (#2177) | Built against what Claude Code ships **now**; no reliance on removed tools. |
+| Breaks across 14 harnesses; hooks misfire per-platform (#2105, #2252, #1108, #2197, #2083) | **One set of skill files, thin per-harness adapters.** Every guarantee that can't be automatic on a harness is written as a rule `reviewing-changes` checks — not silently dropped. |
+| Still instructs removed `TodoWrite` / `Task*` tools (#2177) | No reliance on any removed or harness-specific tool. State lives in `.overpower/` files the agent reads directly. |
 | Full ceremony on trivial tasks; token-budget blowouts (#1120 +16, #1152) | **Adaptive process weight.** The agent sizes the task first: a typo is not a project. |
-| Orchestrator fabricates fake subagent runs (#1749) | **Verified dispatch.** Every subagent result must cite a real `agentId`; unverifiable = not dispatched. |
+| Orchestrator fabricates fake subagent runs (#1749) | **Verified runs.** A delegate's result counts only with a concrete artifact — a result block, a run id, a new diff on disk. No artifact → run it, or do it inline. |
 | "Finish" deletes deferred findings; interrupts lose state (#1075 +11, #2253, #2267) | **`.overpower/` state is durable.** Append-only, survives compaction and interruption; finishing archives, never deletes. |
 | Review-fixes create new bugs, nothing traces blast radius (#2266) | **Change-impact gate.** Before applying a fix you name the callers and dependencies of what you changed. |
 | RED passes for the wrong reason (#2146) | RED must fail **for the stated behavioral reason**, not an import/typo/missing-export error. |
@@ -20,21 +26,26 @@ built to sidestep the failure classes that fill superpowers' issue tracker.
 
 ## Install
 
-```
-/plugin marketplace add <this-repo>
-/plugin install overpower
-```
+- **Claude Code:** `/plugin marketplace add <this-repo>` then
+  `/plugin install overpower` — full automation (session hook, delegates,
+  per-edit scope guard).
+- **Cursor:** the repo's `.cursor/rules/overpower.mdc` applies automatically.
+- **Codex / Gemini CLI / Aider / Jules / anything that reads `AGENTS.md`:**
+  nothing to install — `AGENTS.md` routes the agent to the skills.
+- **GitHub Copilot:** `.github/copilot-instructions.md` applies automatically.
 
-Or point Claude Code at a local checkout for development.
+Feature matrix per harness: [`SUPPORT.md`](SUPPORT.md).
 
 ## Autonomous mode
 
-`/op-build <what to build>` runs the whole flow — spec, plan, then an
-**autonomous loop** that dispatches `op-implementer` and `op-reviewer` subagents
-task by task without stopping to ask at every step. It stops only at a **hard
-stop**:
+`/op-build <what to build>` (or just "build this end-to-end with overpower")
+runs the whole flow — spec, plan, then an **autonomous loop** that runs
+`op-implementer` and `op-reviewer` (delegated where the harness has delegates,
+inline otherwise), task by task without stopping to ask at every step. It stops
+only at a **hard stop**:
 
-- an edit landed outside the worktree (caught by a hook, not just an instruction)
+- an edit landed outside the worktree (a hook blocks it on Claude Code; a
+  checked rule everywhere else)
 - a task failed review twice
 - a task needs a design decision the spec didn't make
 - green tests went red and one debug pass didn't fix them

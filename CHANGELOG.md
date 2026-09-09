@@ -1,5 +1,43 @@
 # Changelog
 
+## [0.6.0] — 2026-09-09
+
+Multi-harness: overpower's method now runs on any agent that reads skill files,
+not just Claude Code.
+
+### Added
+
+- **`AGENTS.md`** — the universal entry. Any agent that reads `AGENTS.md`
+  (Codex, Cursor, Gemini CLI, Aider, Jules, Zed…) gets routed to the skills.
+- **`SUPPORT.md`** — the per-harness feature matrix and the honest trade-off:
+  the *method* is one set of files; guarantees that can't be automatic on a
+  harness become rules `reviewing-changes` checks — never silently dropped.
+- **`.cursor/rules/overpower.mdc`** (always-applies Cursor rule) and
+  **`.github/copilot-instructions.md`**.
+- `tests/test_harness_neutral.py` — skills don't lean on a Claude-only concept
+  without the neutral framing; adapters exist and route to the skills;
+  `AGENTS.md`/`SUPPORT.md` stay in sync with `skills/`.
+
+### Changed
+
+- **Skill vocabulary is now harness-neutral.** `using-overpower` defines three
+  terms once — **skills mechanism**, **delegate**, **guard hook** — with the
+  "if your harness lacks it" fallback. `executing-work`, `autonomous-execution`,
+  `reviewing-changes`, `using-git-worktrees` rewritten to use them: a delegate's
+  result counts only with a **concrete run artifact** (result block / run id /
+  new diff), and every skill says what to do with no delegates (inline, in
+  sequence) and no hooks (the rule is checked, not enforced).
+- **`hooks/session_start.py`** detects the harness from its environment and
+  emits the context shape it consumes (Claude Code nested / Cursor snake_case /
+  top-level SDK standard).
+- README leads with "runs on any agent"; the what's-different table is
+  re-scoped from "Claude Code only" to "one set of files, thin adapters".
+
+### Kept
+
+- Claude Code is still Tier A — full automation via the plugin. Nothing there
+  regressed.
+
 ## [0.5.0] — 2026-09-09
 
 A diagrammed architecture step in planning.

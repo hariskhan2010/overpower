@@ -1,13 +1,17 @@
 ---
 name: executing-work
-description: Use once a plan exists (T2/T3) or a clear T1 task is in hand. Runs the tier-appropriate build loop and verifies every subagent dispatch is real.
+description: Use once a plan exists (T2/T3) or a clear T1 task is in hand. Runs the tier-appropriate build loop and verifies every delegated task actually ran.
 ---
 
 # Executing work
 
+("delegate" = your harness's sub-worker: Claude Code's Task tool, background
+agents, etc. No delegate mechanism? Do every task inline, in sequence — you lose
+parallelism, not the discipline. See `using-overpower` → Vocabulary.)
+
 ## T1 — a single clear task
 
-No subagents. No plan file unless it grows past ~3 steps.
+No delegates. No plan file unless it grows past ~3 steps.
 
 1. `test-driven-development`: RED (for the right reason) → GREEN → REFACTOR.
 2. Self-review: re-read your diff against the original request. Does it do
@@ -19,40 +23,45 @@ No subagents. No plan file unless it grows past ~3 steps.
 
 Work the plan's tasks in dependency order. For each task or parallel group:
 
-### Dispatch
+### Do the task
 
-- **Sequential task:** do it yourself, or dispatch one implementer subagent with
-  the task's full text (Files / Change / Test / Verify).
-- **Parallel group** (tasks that depend only on completed work): dispatch one
-  subagent per task, concurrently.
+- **Inline (always valid):** you implement the task from its full text
+  (Files / Design / Change / Test / Verify).
+- **Delegated (if the harness has delegates):** hand one `op-implementer` the
+  task's full text. For a **parallel group** (tasks depending only on completed
+  work), one delegate per task, concurrently.
 
-### Verify the dispatch is real — MANDATORY
+### Verify a delegated task actually ran — MANDATORY
 
-This is the guard against fabricating subagent runs.
+The guard against inventing a delegate's work (the failure that plagues
+methodology plugins: the orchestrator narrates a whole implementer/reviewer
+exchange that never happened).
 
-- After a subagent returns, there **must** be a `tool_result` block in this
-  conversation with an `agentId` and token usage. Record it in `progress.md`:
+- A delegate's result is real only with a **concrete run artifact**: a returned
+  result block, a run id the harness assigned, or a diff that appeared on disk
+  that wasn't there before. Record it in `progress.md`:
   ```
-  - <date-time> Task 4 → implementer agentId=<id> (~<n> tok) — <one-line result>
+  - <date-time> Task 4 → op-implementer run=<id-or-"inline"> — <one-line result>
   ```
-- **If you are about to write what a subagent "did" or "found" and there is no
-  `tool_result` block for it above — stop.** You are narrating a run that did
-  not happen. Dispatch it for real.
-- **Unchanged working tree** after an implementer subagent = a no-op. Re-dispatch
-  with: "the working tree is unchanged — make the edit described, or reply with
-  the specific reason you cannot."
+- **If you're about to write what a delegate "did" or "found" and there is no
+  such artifact — stop.** You're narrating a run that didn't happen. Run it for
+  real, or do the task inline and say so.
+- **Working tree unchanged** after a delegate that was supposed to edit = a
+  no-op. Re-run with: "the tree is unchanged — make the edit, or state the
+  specific reason you can't."
 
 ### Review each task
 
-After a task's implementer returns, dispatch a **reviewer** subagent (or review
-yourself for T1-sized tasks) using `reviewing-changes`:
+After a task is done, review it with `reviewing-changes` — a delegated
+`op-reviewer` if the harness has delegates, otherwise you review it yourself:
 
 - Stage 1: does the diff match the task's `Change` and pass its `Verify`?
 - Stage 2: code quality, and the **change-impact gate** on anything the fix
   touched.
 
 A Critical finding blocks the next task. An out-of-scope finding goes to
-`findings.md`. Record the verdict + reviewer `agentId` in `progress.md`.
+`findings.md`. Record the verdict (and reviewer run id, if delegated) in
+`progress.md`.
 
 ### Fixing review findings
 

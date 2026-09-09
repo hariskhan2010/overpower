@@ -9,6 +9,12 @@ This is the loop that lets overpower work a feature for an hour without stopping
 to ask permission at every step — while staying inside guardrails so it can't go
 off the rails or do something irreversible unasked.
 
+Works on any harness. Where the harness has **delegates** (sub-workers) the loop
+runs tasks in parallel through them; where it doesn't, the loop runs tasks
+inline in sequence — slower, same discipline. Where the harness has a **guard
+hook**, an out-of-scope edit is blocked automatically; where it doesn't, the
+scope rule is one you follow and `reviewing-changes` checks. See `SUPPORT.md`.
+
 ## Entry
 
 You arrive here from `/op-build`, from `/op-resume`, or when the user says "build
@@ -27,19 +33,20 @@ Repeat until the plan is complete or a **hard stop** fires:
 
 1. **Pick the next work.** From `progress.md`, the lowest-numbered task whose
    dependencies are all `done`. If several are independent, take the whole group.
-2. **Dispatch.** One `op-implementer` subagent per task (the group in parallel).
-   Give each the task's full text and the **absolute worktree path**.
-3. **Verify the dispatch is real** (from `executing-work`): each result has a
-   `tool_result` with an `agentId`. No `agentId` → it didn't run, re-dispatch.
-   Unchanged tree → no-op, re-dispatch with "make the edit or say why not".
-4. **Review.** One `op-reviewer` subagent per completed task. Stage 1 + Stage 2
-   from `reviewing-changes`.
+2. **Do it.** `op-implementer` per task (the group in parallel) if the harness
+   has delegates; otherwise implement each inline, in order. Give each the
+   task's full text and the **absolute worktree path**.
+3. **Verify it actually ran** (from `executing-work`): a concrete run artifact —
+   a result block, a run id, or a new diff on disk. None → it didn't run, redo.
+   Unchanged tree → no-op, redo with "make the edit or say why not".
+4. **Review.** `op-reviewer` per completed task (or review inline). Stage 1 +
+   Stage 2 from `reviewing-changes`.
 5. **Act on findings.**
    - Critical → fix now (run the change-impact gate first), re-verify, re-review.
    - Important, in scope → same.
    - Anything out of scope → append to `.overpower/findings.md`, keep going.
-6. **Record.** Append task done + verify result + reviewer `agentId` to
-   `progress.md`.
+6. **Record.** Append task done + verify result + reviewer run id (or "inline")
+   to `progress.md`.
 7. **Commit** the task (one RED→GREEN→REFACTOR = one commit).
 8. Back to 1.
 
@@ -50,8 +57,9 @@ run `finishing-work`, and **surface to the user** for the merge decision.
 
 Stop and report (do **not** push through) if:
 
-- a task's implementer touched a file **outside the worktree** — the enforce
-  hook flags this; treat it as a scope breach
+- a task's implementer touched a file **outside the worktree** — the guard hook
+  flags this where the harness has one; everywhere else you check it yourself
+  before recording the task done. Either way it's a scope breach — stop.
 - the same task has failed review **twice** — the plan or the approach is wrong
 - an **unplanned design decision** surfaced (a task can't be done as written
   without choosing something the spec didn't) — that's the user's call

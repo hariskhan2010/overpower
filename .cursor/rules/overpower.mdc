@@ -1,0 +1,23 @@
+---
+description: overpower build methodology — classify the task, then use the right amount of process
+alwaysApply: true
+---
+
+This project uses **overpower**. Before acting on any build/coding request:
+
+1. Read `skills/using-overpower/SKILL.md` and follow it — it classifies the task
+   into a tier (T0 trivial → T3 program) and routes it.
+2. Load other skills by opening `skills/<name>/SKILL.md` when named.
+3. On a resumed session: read `.overpower/progress.md` then
+   `.overpower/findings.md` first.
+
+Cursor specifics (see `SUPPORT.md`):
+- **delegate** = a Cursor background agent. Use one per task for parallel groups;
+  otherwise implement inline.
+- No guard hook — check every edit's path stays inside the worktree yourself;
+  `reviewing-changes` is the backstop.
+
+Non-negotiables: classify the tier first; never claim done without verifying;
+never act on a delegate result with no concrete run artifact; `progress.md` is
+append-only; `findings.md` is never truncated; merge/push/delete/spend need
+explicit user approval.

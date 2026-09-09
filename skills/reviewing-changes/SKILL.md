@@ -5,8 +5,8 @@ description: Use to review a task's diff before moving on, and before finishing 
 
 # Reviewing changes
 
-Two stages. Both required. A reviewer subagent runs them; for a T1 task you run
-them on yourself.
+Two stages. Both required. Run them yourself, or hand them to an `op-reviewer`
+delegate if the harness has delegates.
 
 ## Stage 1 — does it match the plan?
 
@@ -70,5 +70,5 @@ Record in `progress.md` together:
 Append the verdict to `progress.md`:
 
 ```
-- <date-time> Task N review (reviewer agentId=<id>): Stage 1 pass, Stage 2 — <n> Important → 1 fixed, 1 to findings.md. Cleared.
+- <date-time> Task N review (reviewer run=<id-or-"inline">): Stage 1 pass, Stage 2 — <n> Important → 1 fixed, 1 to findings.md. Cleared.
 ```

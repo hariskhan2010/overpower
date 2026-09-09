@@ -1,13 +1,15 @@
 ---
 name: using-git-worktrees
-description: Use after a T2/T3 spec is approved, to create an isolated workspace for the feature. Also use before dispatching parallel implementer subagents.
+description: Use after a T2/T3 spec is approved, to create an isolated workspace for the feature. Also use before running parallel implementer delegates.
 ---
 
 # Using git worktrees
 
 A worktree is a second checkout of the same repo on its own branch, in its own
 directory. It keeps a feature's changes off your main checkout and lets parallel
-subagents work without stepping on each other.
+delegates work without stepping on each other. (Solo/inline? A worktree is still
+worth it — it isolates the feature so an abandoned attempt is one `git worktree
+remove`.)
 
 ## Check before you touch anything
 
@@ -58,11 +60,12 @@ Append to `.overpower/progress.md`:
 
 ## While working in a worktree
 
-- **All file operations stay inside the worktree directory.** A subagent editing
-  `../<repo>/src/...` instead of `../<repo>-<feature>/src/...` is editing the
-  wrong tree — its work won't be on the feature branch. If you dispatch
-  subagents, give them the **absolute worktree path** and tell them to `cd`
-  there first and to refuse any path outside it.
+- **All file operations stay inside the worktree directory.** Editing
+  `../<repo>/src/...` instead of `../<repo>-<feature>/src/...` puts the work on
+  the wrong tree — it won't be on the feature branch. If you run delegates, give
+  them the **absolute worktree path** and tell them to `cd` there first and
+  refuse any path outside it. On a harness with a guard hook this is enforced;
+  everywhere else, check every edit's path yourself.
 
 ## Clean up
 
