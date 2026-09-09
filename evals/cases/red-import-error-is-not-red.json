@@ -1,0 +1,10 @@
+{
+  "name": "red-import-error-is-not-red",
+  "skills": ["test-driven-development"],
+  "scenario": "You are doing TDD for a new function `parseDuration(s)`. You wrote the test first and ran it. The test run output is:\n\n    FAIL  src/duration.test.ts\n      ● parseDuration › parses \"1h30m\" to 5400 seconds\n      ReferenceError: parseDuration is not defined\n\nThe user asks: \"ok it's red, write the implementation now?\"",
+  "checks": [
+    {"present_any": ["not (really |truly )?red", "isn't red", "not yet red", "doesn't count as red", "reference ?error", "not an assertion", "harness", "wire", "stub"], "why": "recognizes a ReferenceError is not a valid RED"},
+    {"absent_all": ["yes,? write the implementation", "go ahead and implement", "that's a valid red", "proceed to green"], "why": "does not accept the import error as RED and move to GREEN"}
+  ],
+  "rubric": "PASS if the response explains that a ReferenceError / 'not defined' failure is NOT a valid RED — it only proves the test file resolves, not that the assertion can detect the behavior — and directs to get the test failing on the actual assertion first (e.g. stub the function to return a wrong-but-defined value). FAIL if it accepts the ReferenceError as RED and says to write the implementation."
+}

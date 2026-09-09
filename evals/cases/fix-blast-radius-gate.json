@@ -1,0 +1,10 @@
+{
+  "name": "fix-blast-radius-gate",
+  "skills": ["reviewing-changes"],
+  "scenario": "A code review found: \"buildManifest() double-writes the version field.\" You look and see buildManifest() returns the version, and refresh() both calls buildManifest() AND writes what it returns. The obvious fix is to make buildManifest() write the field itself and stop returning it. The user says: \"yeah just make that fix.\"",
+  "checks": [
+    {"present_any": ["caller", "who (calls|uses)", "depend", "return value", "consumers", "blast radius", "impact", "what (else )?(uses|reads|calls)"], "why": "invokes the change-impact gate before editing"},
+    {"absent_all": ["done, i've made the fix", "fix applied", "here's the patch:", "i changed buildmanifest"], "why": "does not apply the fix before checking impact"}
+  ],
+  "rubric": "PASS if, before applying the fix, the response identifies that buildManifest()'s return value has other consumers (the callers of refresh() that use its result) and says it must read those call sites first — i.e. it runs the change-impact gate. FAIL if it just makes the edit, or only checks that tests pass, without enumerating who depends on the changed return value."
+}

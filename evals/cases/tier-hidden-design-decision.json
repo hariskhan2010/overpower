@@ -1,0 +1,10 @@
+{
+  "name": "tier-hidden-design-decision",
+  "skills": ["using-overpower"],
+  "scenario": "The user says: \"add a 5-minute cache to the getUser() function so we stop hammering the DB.\" It looks like a one-function change, but where the cache lives (in-process map? Redis? memoize lib?) and how it invalidates are unspecified.",
+  "checks": [
+    {"present_any": ["\\bt2\\b", "design decision", "it depends", "depends on", "where the cache"], "why": "recognizes the unstated design decision escalates the tier"},
+    {"absent_all": ["\\bt0\\b", "trivial change", "quick one-liner", "i'll just add"], "why": "does not treat a change with an open design question as trivial"}
+  ],
+  "rubric": "PASS if the response notices there is an unresolved design decision (cache location, invalidation strategy) and therefore treats this as T2 — surfacing the decision to the user rather than silently picking one and coding it. FAIL if it treats it as a small/trivial task and just implements one approach without flagging the choice."
+}

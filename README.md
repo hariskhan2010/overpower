@@ -44,14 +44,20 @@ Or point Claude Code at a local checkout for development.
 
 ## Status
 
-**v0.2 — the full skill set, not yet battle-tested.** The 10 skills, the
-skeleton, the state model. The structural pieces (Claude-Code-only, the hook,
-append-only state, the lint tests) are done and verified. The behavioral pieces
-(the agent actually classifies tiers, runs the change-impact gate, won't
-fabricate subagents) are written into the skills but need real sessions to
-confirm — that's the open work, a skill-eval harness. Treat it as a working
-draft you tune to how you work; that is the point of owning it rather than
-installing a product.
+**v0.3 — full skill set, behaviorally tested.** 10 skills; the structural pieces
+(Claude-Code-only, the hook, append-only state) verified by `tests/`; the
+behavioral pieces verified by `evals/` — a harness that runs each skill against
+a real model on its target scenario. First run: **9/9**. Still a working draft
+you tune to how you work — that is the point of owning it rather than installing
+a product — but the claims in the table above are now demonstrated, not asserted.
+
+### Verify
+
+```
+python -m unittest discover -s tests   # file validity — instant
+python evals/run_evals.py              # skills change model behavior — ~2 min
+python evals/run_evals.py --rubric     # + a judge-model pass
+```
 
 ## License
 

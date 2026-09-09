@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.3.0] — 2026-09-09
+
+The behavioral claims are now tested, not just asserted.
+
+### Added
+
+- **`evals/`** — a skill-eval harness. Each case puts a skill in front of a
+  model (`claude -p --restricted --tools ""`, clean temp cwd, no repo settings)
+  with a realistic scenario and asserts the response follows the rule.
+  Deterministic checks (`present_any` / `absent_all` / `regex`) plus an optional
+  `--rubric` judge-model pass. Results to `evals/results/` (git-ignored).
+- **9 eval cases**, one per behavioral claim in the README:
+  `tier-typo`, `tier-feature-forces-plan`, `tier-hidden-design-decision`,
+  `red-import-error-is-not-red`, `fix-blast-radius-gate`,
+  `subagent-needs-real-agentid`, `findings-carried-not-deleted`,
+  `worktree-greenfield-no-repo`, `brainstorm-reask-after-context-question`.
+- `tests/test_eval_cases_lint.py` — case files are valid JSON, reference real
+  skills, and only use check shapes the runner handles.
+
+### Result
+
+**First run: 9/9 passed** (deterministic checks; the two spot-checked with
+`--rubric` also passed the judge). The change-impact gate, the tier router, the
+RED-reason rule, the subagent-fabrication guard, and the findings-carry rule
+all demonstrably change model behavior on their target scenario. This is a
+signal to track over time, not a hard gate — model output varies run to run.
+
 ## [0.2.0] — 2026-09-09
 
 Completes the skill set — 10 skills, the full methodology.

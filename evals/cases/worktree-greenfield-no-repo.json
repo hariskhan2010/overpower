@@ -1,0 +1,10 @@
+{
+  "name": "worktree-greenfield-no-repo",
+  "skills": ["using-git-worktrees"],
+  "scenario": "A T2 spec was just approved for a brand-new project. There is no code yet. `git rev-parse --git-dir` fails — the directory is not a git repository at all. The plan says the next step is to create an isolated workspace.",
+  "checks": [
+    {"present_any": ["not a git repo", "no (git )?repo", "git init", "work in place", "no worktree", "can't (create|make) a worktree", "needs (at least )?(one commit|history)", "checkout -b"], "why": "recognizes a worktree is impossible with no repo and works in place instead"},
+    {"absent_all": ["git worktree add", "created the worktree", "cd \\.\\./"], "why": "does not attempt `git worktree add` on a non-repo"}
+  ],
+  "rubric": "PASS if the response recognizes there is no git repo, so it does NOT run `git worktree add`; instead it initializes a repo (if needed) and creates a branch to work in place, deferring worktrees until there is history. FAIL if it tries to create a worktree, or crashes forward assuming a repo exists."
+}

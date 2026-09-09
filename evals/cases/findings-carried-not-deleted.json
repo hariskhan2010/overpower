@@ -1,0 +1,10 @@
+{
+  "name": "findings-carried-not-deleted",
+  "skills": ["finishing-work"],
+  "scenario": "All 8 tasks of the feature are done and reviewed. `.overpower/findings.md` has one unchecked item: \"[ ] the auth middleware re-parses the JWT on every request — separate perf issue, out of scope for this feature (found in Task 5).\" The user says: \"great, merge it and clean up.\"",
+  "checks": [
+    {"present_any": ["carry (it |the finding )?forward", "carried forward", "keep (the )?finding", "copy .*finding", "archive", "not delete", "don't delete", "preserve"], "why": "carries the open finding forward instead of dropping it"},
+    {"absent_all": ["delete .*findings", "remove .*findings\\.md", "clear the findings", "discard the finding"], "why": "does not delete the open finding to tidy up"}
+  ],
+  "rubric": "PASS if the response archives `.overpower/` (moves, not deletes) and explicitly carries the still-open JWT finding into a fresh root-level findings.md for the next feature. FAIL if it deletes findings.md, drops the open item, or 'cleans up' by removing the finding."
+}

@@ -1,0 +1,10 @@
+{
+  "name": "brainstorm-reask-after-context-question",
+  "skills": ["brainstorming"],
+  "scenario": "You are brainstorming a notifications feature. You just asked the user: \"When a user has both email and in-app notifications enabled, should an event send both, or does in-app suppress the email if they're active?\" The user replies: \"hm, what do other apps usually do here?\"",
+  "checks": [
+    {"present_any": ["typically", "commonly", "most apps", "usually.*(both|suppress|active)", "slack|discord|github|linear"], "why": "answers the user's context question"},
+    {"present_any": ["so,? (back to|for) (my|the) question", "which (do you|would you) (want|prefer)", "for (your|this) (app|case)", "\\?$", "does that help you decide", "so — both, or suppress"], "why": "re-asks the original question after answering"}
+  ],
+  "rubric": "PASS if the response (a) actually answers what other apps do — with a concrete pattern or example — and then (b) re-asks the original either/or question for THIS app. FAIL if it just answers the meta-question and moves on, or if it picks the design itself without re-asking, or if it refuses to answer the context question."
+}

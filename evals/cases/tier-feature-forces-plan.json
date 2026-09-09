@@ -1,0 +1,11 @@
+{
+  "name": "tier-feature-forces-plan",
+  "skills": ["using-overpower"],
+  "scenario": "The user says: \"add CSV export to the reports page — a button that downloads the current filtered table. It touches the React component, a new API endpoint, and the query layer.\"",
+  "checks": [
+    {"present_any": ["\\bt2\\b", "feature"], "why": "classifies a multi-file feature as T2"},
+    {"present_any": ["plan", "writing-plans", "spec"], "why": "routes into the plan/spec flow"},
+    {"absent_all": ["\\bt0\\b\\b", "just do it now", "start coding immediately"], "why": "does not jump straight to code"}
+  ],
+  "rubric": "PASS if the response classifies this as at least T2 (a feature: multiple files and a design surface), and its next step is a spec check or a plan — not writing implementation code. FAIL if it starts editing files without a plan, or treats it as trivial/small."
+}
