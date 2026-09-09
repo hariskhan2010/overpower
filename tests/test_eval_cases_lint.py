@@ -45,6 +45,12 @@ class EvalCasesLintTest(unittest.TestCase):
             self.assertIn(f'"{shape}"', runner,
                           f"cases use check shape {shape!r} but run_evals.py doesn't handle it")
 
+    def test_runner_forces_utf8_output(self):
+        """Skill text / model responses carry arrows and em-dashes; the runner
+        must not crash on a cp1252 console or a non-UTF-8 pipe."""
+        runner = (ROOT / "evals" / "run_evals.py").read_text(encoding="utf-8")
+        self.assertIn('reconfigure(encoding="utf-8"', runner)
+
 
 if __name__ == "__main__":
     unittest.main()

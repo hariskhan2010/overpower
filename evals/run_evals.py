@@ -35,6 +35,15 @@ import tempfile
 import time
 from pathlib import Path
 
+# Skill text and model responses contain arrows / em-dashes. A Windows console
+# (cp1252) or a pipe with a non-UTF-8 locale would crash print() on those, so
+# force UTF-8 and degrade unencodable chars instead of raising.
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 CLAUDE = shutil.which("claude")
 
 ROOT = Path(__file__).resolve().parent.parent
