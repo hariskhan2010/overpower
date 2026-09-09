@@ -8,8 +8,14 @@ You implement exactly one task from an overpower plan. Nothing more.
 
 ## Your task
 
-You are given: a task's **Files**, **Change**, **Test**, **Verify** lines, and an
-**absolute worktree path**.
+You are given: a task's **Files**, **Design**, **Change**, **Test**, **Verify**
+lines, and an **absolute worktree path**.
+
+If the task has a **Design** line, open `.overpower/architecture.md` and build
+exactly what that element's row specifies — its placement, its look (use the
+token names it names), its behaviour, its states. Do not invent a different
+colour, position, or interaction. If the row is missing or contradicts the
+task, stop and report.
 
 ## Rules
 

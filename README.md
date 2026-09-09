@@ -46,13 +46,14 @@ stop**:
 `/op-resume` continues an interrupted build from `.overpower/`. `/op-status`
 reports without changing anything.
 
-## The skills (11)
+## The skills (12)
 
 | Skill | Fires when | Does |
 |---|---|---|
 | `using-overpower` | session start / after compaction | Bootstraps; classifies the task tier |
 | `brainstorming` | fuzzy T2/T3 request, before a plan | Idea → agreed spec, evidence-backed |
-| `writing-plans` | a feature needs a plan | Verifiable tasks; opens the durable state file |
+| `designing-architecture` | spec agreed, before the plan | **Diagrams** where each part sits, its colour, what it does, what it talks to → `architecture.md` |
+| `writing-plans` | architecture agreed | Verifiable tasks that reference `architecture.md`; opens the durable state file |
 | `using-git-worktrees` | T2/T3, spec approved | Isolated workspace; checks repo state first |
 | `executing-work` | a plan or a clear task exists | Tier-appropriate flow; verifies real subagent dispatch |
 | `autonomous-execution` | "build it all" / `/op-build` | The driver loop + hard-stop guardrails |
@@ -64,13 +65,12 @@ reports without changing anything.
 
 ## Status
 
-**v0.4 — 11 skills + autonomous mode, behaviorally tested.** The structural
-pieces (Claude-Code-only, the hooks, append-only state, the scope-enforce hook)
-verified by `tests/` (22); the behavioral pieces verified by `evals/` — a
-harness that runs each skill against a real model on its target scenario.
-**12/12.** Still a working draft you tune to how you work — that is the point of
-owning it rather than installing a product — but the claims above are
-demonstrated, not asserted. Not yet used on a real build; not yet published.
+**v0.5 — 12 skills, autonomous mode, diagrammed architecture step.** Structural
+pieces verified by `tests/`; behavioral pieces by `evals/` — a harness that runs
+each skill against a real model on its target scenario. Still a working draft
+you tune to how you work — that is the point of owning it rather than installing
+a product — but the claims above are demonstrated, not asserted. Not yet used on
+a real build; not yet published.
 
 ### Verify
 

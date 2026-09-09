@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.5.0] — 2026-09-09
+
+A diagrammed architecture step in planning.
+
+### Added
+
+- **`designing-architecture` skill** — runs after the spec, before the plan,
+  for anything with UI or more than one moving part. Produces
+  `.overpower/architecture.md`:
+  - a **mermaid component map** (new/changed nodes marked distinctly)
+  - an **ASCII layout wireframe** (where the new element sits)
+  - an **element spec table**: Where · Look · Does · Data, one row per
+    added/changed element
+  - **states** (idle/pending/error/empty) for interactive elements
+  - a **mermaid sequence diagram** for request round-trips
+  - decisions with evidence
+
+  Colour and tokens come from the project's design system (Tailwind config, CSS
+  vars, `theme.ts`, a component library) — the skill looks for it; if there's
+  none it marks choices `(proposed — no design system found)` so the user knows
+  to confirm. Optional: a self-contained `architecture-mockup.html` to *see* it.
+
+### Changed
+
+- `using-overpower` T2/T3 flow gains step 2 (architecture) between spec and plan.
+- `writing-plans` requires `architecture.md` for UI/multi-component features and
+  adds a `Design:` line to the task template pointing at the element's row —
+  the plan no longer re-decides placement or colour.
+- `op-implementer` reads `architecture.md` for a task's `Design` row and builds
+  exactly that; it does not invent a different colour, position, or interaction.
+
 ## [0.4.0] — 2026-09-09
 
 Autonomy: run a whole feature end-to-end, with guardrails.

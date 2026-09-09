@@ -37,14 +37,21 @@ Announce the tier in one line: `Tier: T2 (touches routing + the store + a migrat
 
 1. **Spec.** If the request is fuzzy, use `brainstorming` first. If it's already
    crisp, write a 3–6 line spec back to the user and get a yes.
-2. **Plan.** Use `writing-plans`. This opens `.overpower/progress.md`.
-3. **Branch.** Use `using-git-worktrees` (T2+) — it checks the repo is in a
+2. **Architecture.** Use `designing-architecture` — a diagrammed picture of
+   where each new/changed part sits, what it looks like, what it does, and what
+   it talks to. Required for anything with UI or more than one moving part;
+   skip only for a genuinely single-component change. Writes
+   `.overpower/architecture.md`, user signs off.
+3. **Plan.** Use `writing-plans`. Opens `.overpower/progress.md`. Every task that
+   builds a component points at its row in `architecture.md`.
+4. **Branch.** Use `using-git-worktrees` (T2+) — it checks the repo is in a
    state that can take one.
-4. **Build.** Use `executing-work`. Subagents for parallelizable tasks;
-   every subagent result is verified against a real `agentId`.
-5. **Review.** Use `reviewing-changes` between task groups and before finishing —
+5. **Build.** Use `executing-work` (or `autonomous-execution`). Subagents for
+   parallelizable tasks; every subagent result is verified against a real
+   `agentId`.
+6. **Review.** Use `reviewing-changes` between task groups and before finishing —
    it runs the change-impact gate on every fix.
-6. **Finish.** Use `finishing-work` — archives `.overpower/`, never deletes it.
+7. **Finish.** Use `finishing-work` — archives `.overpower/`, never deletes it.
 
 **Any time a test fails unexpectedly or a bug appears** — at any tier, in any
 phase — use `systematic-debugging` before attempting a fix.
@@ -66,7 +73,8 @@ build back up from `.overpower/`; `/op-status` reports without changing anything
 |---|---|
 | `using-overpower` | session start / after compaction (this file) |
 | `brainstorming` | T2/T3, request is fuzzy, before a plan |
-| `writing-plans` | T2/T3, spec agreed |
+| `designing-architecture` | T2/T3, spec agreed, before the plan — diagram where/look/does/talks-to |
+| `writing-plans` | T2/T3, architecture agreed |
 | `using-git-worktrees` | T2/T3, spec approved; before parallel subagents |
 | `executing-work` | a plan exists, or a clear T1 task |
 | `autonomous-execution` | run a whole feature end-to-end with minimal check-ins |

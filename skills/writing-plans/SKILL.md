@@ -8,6 +8,14 @@ description: Use for a T2/T3 task once the spec is agreed. Turns the spec into v
 A plan is for an implementer with no context and no judgement. Every task must be
 executable and checkable without re-reading the whole spec.
 
+## Before you start
+
+If this is a UI feature or has more than one moving part, `.overpower/architecture.md`
+must exist and be signed off (`designing-architecture`). The plan does not
+re-decide placement, colour, or which component talks to what — it points at
+`architecture.md`. If the architecture doc is missing for a feature that needs
+one, stop and run `designing-architecture` first.
+
 ## 1. Open the state file
 
 Create `.overpower/progress.md` at the repo root if it doesn't exist:
@@ -52,6 +60,7 @@ Template:
 ### Task N — <imperative title>
 Files: <path>, <path>
 Depends on: <task numbers, or "nothing">
+Design: <the row(s) in architecture.md this builds — "architecture.md: Export button"> (omit for non-UI/infra tasks)
 Change: <what to make true. Concrete. Include the shape of the code if it's not obvious.>
 Test: <the failing test to write first (T1+ tasks) — its name and the assertion>
 Verify: <command> → <what pass looks like>

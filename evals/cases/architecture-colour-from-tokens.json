@@ -1,0 +1,10 @@
+{
+  "name": "architecture-colour-from-tokens",
+  "skills": ["designing-architecture"],
+  "scenario": "The spec is agreed: \"Add a primary 'Save changes' button to the profile form.\" The repo has a tailwind.config.js with:\n\n    theme: { extend: { colors: {\n      primary: '#4f46e5', 'primary-hover': '#4338ca',\n      danger: '#dc2626', surface: '#ffffff', ink: '#111827'\n    } } }\n\nProduce the element spec for the button.",
+  "checks": [
+    {"present_any": ["primary", "bg-primary", "primary-hover", "tailwind"], "why": "uses the project's token names"},
+    {"absent_all": ["\\(proposed", "no design system found", "i'll pick", "i suggest using #", "let's use indigo"], "why": "does NOT mark colour as proposed when a design system exists"}
+  ],
+  "rubric": "PASS if the button's Look column references the project's actual token names (primary / primary-hover / etc. from the tailwind config) rather than inventing a colour or marking the choice as 'proposed'. The 'proposed' marker is only correct when NO design system exists — here one clearly does. FAIL if it invents a hex, picks a colour name not in the config, or marks the choice proposed despite the tailwind tokens being right there."
+}

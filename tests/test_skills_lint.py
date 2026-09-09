@@ -16,7 +16,7 @@ class SkillsLintTest(unittest.TestCase):
         return sorted(SKILLS.glob("*/SKILL.md"))
 
     def test_there_are_skills(self):
-        self.assertGreaterEqual(len(self.skills()), 11)
+        self.assertGreaterEqual(len(self.skills()), 12)
 
     def test_router_lists_every_skill(self):
         """using-overpower's skill table must stay in sync with skills/ ."""

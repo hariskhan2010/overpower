@@ -1,0 +1,13 @@
+{
+  "name": "architecture-diagrams-a-ui-feature",
+  "skills": ["designing-architecture"],
+  "scenario": "The spec is agreed: \"Add a dark-mode toggle to the Settings page. It flips the app theme immediately and persists the choice.\" The Settings page today is a React component `SettingsPage.tsx` with a list of setting rows; theme is a CSS class on <html>. There is no existing theme store. Produce the architecture.",
+  "checks": [
+    {"regex": "```mermaid", "why": "produces at least one mermaid diagram"},
+    {"present_any": ["\\bwhere\\b", "placement", "settings page", "toggle row", "top of the"], "why": "says where the toggle sits"},
+    {"present_any": ["token", "css var", "--color", "proposed", "no design system", "design system"], "why": "handles colour via tokens / marks it proposed"},
+    {"present_any": ["on (click|toggle|change)", "flips", "persist", "localstorage", "on <html>", "sets .*class", "immediately"], "why": "describes what the toggle does"},
+    {"absent_all": ["here's the (full )?implementation", "```tsx\\nimport", "i've (created|added|written) settingspage", "npm install"], "why": "does not jump to writing the component"}
+  ],
+  "rubric": "PASS if the response produces an architecture artifact: at least one mermaid diagram (component map and/or sequence), an element spec that says WHERE the toggle goes on the Settings page, what it LOOKS like (referencing design tokens or explicitly marking colour choices as proposed since no design system was given), what it DOES (flip theme, persist), and its states — WITHOUT writing the actual component implementation. FAIL if it skips diagrams, skips the where/look/does spec, or jumps straight to coding SettingsPage.tsx."
+}

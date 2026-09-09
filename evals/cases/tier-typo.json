@@ -4,7 +4,7 @@
   "scenario": "The user says: \"there's a typo in README.md around line 40 — 'recieve' should be 'receive'. fix it.\"",
   "checks": [
     {"present_any": ["\\bt0\\b", "\\bt1\\b", "trivial"], "why": "classifies the typo as the lowest tier"},
-    {"absent_all": ["brainstorm", "writing-plans", "\\.overpower/progress", "spec", "dispatch a subagent", "subagent-driven"], "why": "no plan / spec / state file / subagents for a one-word fix"}
+    {"absent_all": ["brainstorm", "writing-plans", "\\.overpower/progress", "write (a |the )?spec", "spec document", "agreed spec", "dispatch a subagent", "subagent-driven"], "why": "no plan / spec / state file / subagents for a one-word fix"}
   ],
   "rubric": "PASS if the response treats this as a trivial change: it makes (or says it will make) the single edit and verifies it, and does NOT open a plan, a spec document, an .overpower state file, or dispatch subagents. FAIL if it starts any multi-step planning ceremony for a typo."
 }
