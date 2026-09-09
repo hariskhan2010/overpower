@@ -1,0 +1,14 @@
+{
+  "name": "overpower",
+  "description": "overpower — a disciplined build methodology for Claude Code",
+  "owner": { "name": "overpower" },
+  "plugins": [
+    {
+      "name": "overpower",
+      "description": "Adaptive process weight, durable plan state, verified subagent dispatch, and reviews that trace what a fix changes. Claude Code only.",
+      "version": "0.1.0",
+      "source": "./",
+      "license": "MIT"
+    }
+  ]
+}

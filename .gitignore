@@ -1,0 +1,6 @@
+# overpower runtime state lives in the *target* repo's .overpower/, not here.
+# In this repo, ignore any local scratch.
+.overpower/
+__pycache__/
+*.pyc
+.DS_Store
