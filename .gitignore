@@ -6,3 +6,4 @@ __pycache__/
 .DS_Store
 evals/results/
 codegraph-out/
+.claude/settings.local.json
