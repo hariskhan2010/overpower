@@ -76,18 +76,18 @@ reports without changing anything.
 
 ## Status
 
-**v0.5 — 12 skills, autonomous mode, diagrammed architecture step.** Structural
-pieces verified by `tests/`; behavioral pieces by `evals/` — a harness that runs
-each skill against a real model on its target scenario. Still a working draft
-you tune to how you work — that is the point of owning it rather than installing
-a product — but the claims above are demonstrated, not asserted. Not yet used on
-a real build; not yet published.
+**v0.6 — 12 skills, autonomous mode, runs on any agent that reads skill files
+(not just Claude Code).** Structural pieces verified by `tests/`; behavioral
+pieces by `evals/` — a harness that runs each skill against a real model on its
+target scenario. Still a working draft you tune to how you work — that is the
+point of owning it rather than installing a product — but the claims above are
+demonstrated, not asserted. Used on 4 real builds so far; not yet published.
 
 ### Verify
 
 ```
-python -m unittest discover -s tests   # 22 file-validity tests — instant
-python evals/run_evals.py              # 12 behavioral cases — ~3 min
+python -m unittest discover -s tests   # 38 file-validity tests — instant
+python evals/run_evals.py              # 14 behavioral cases — ~3 min
 python evals/run_evals.py --rubric     # + a judge-model pass
 ```
 

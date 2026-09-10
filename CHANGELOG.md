@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.1] — 2026-09-10
+
+Release hygiene — no behaviour change.
+
+### Fixed
+
+- **Manifest version.** `plugin.json` / `marketplace.json` had been stuck at
+  `0.1.0` since the first release; bumped to match. `tests/test_plugin_manifest.py`
+  now asserts the manifest version equals the newest `CHANGELOG.md` heading, so
+  it can't drift again.
+- **README accuracy.** Status block said `v0.5` and "not yet used on a real
+  build"; corrected to `v0.6` / "used on 4 real builds so far", and the stale
+  test/eval counts (`22`/`12`) updated to `38`/`14`.
+
+### Changed
+
+- `.gitignore` now excludes `codegraph-out/` (local graph artifacts).
+
 ## [0.6.0] — 2026-09-09
 
 Multi-harness: overpower's method now runs on any agent that reads skill files,

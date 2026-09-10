@@ -17,6 +17,17 @@ class PluginManifestTest(unittest.TestCase):
             self.assertIn(k, p)
         self.assertEqual(p["name"], "overpower")
 
+    def test_manifest_version_matches_changelog(self):
+        """The manifest version must match the newest CHANGELOG heading —
+        otherwise Claude Code installs a version the release notes don't describe.
+        """
+        p = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        latest = re.search(r"^##\s*\[([0-9]+\.[0-9]+\.[0-9]+)\]", changelog, re.M)
+        self.assertIsNotNone(latest, "no versioned heading in CHANGELOG.md")
+        self.assertEqual(p["version"], latest.group(1),
+                         "plugin.json version drifted from the newest CHANGELOG entry")
+
     def test_marketplace_json_matches_plugin(self):
         m = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8"))
         p = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))

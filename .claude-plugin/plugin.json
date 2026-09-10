@@ -1,7 +1,7 @@
 {
   "name": "overpower",
   "description": "A disciplined build methodology for Claude Code: adaptive process weight, durable plan state, verified subagent dispatch, and reviews that trace what a fix changes. Claude Code only, on current primitives.",
-  "version": "0.1.0",
+  "version": "0.6.1",
   "author": { "name": "overpower" },
   "license": "MIT",
   "keywords": ["skills", "tdd", "planning", "code-review", "subagents", "methodology"]
