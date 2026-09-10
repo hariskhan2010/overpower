@@ -1,20 +1,37 @@
 # Working in this repo
 
-## Use codegraph before reading source files
+## Answer code questions FROM THE GRAPH, not the codebase
 
-This repo has a persistent code graph at `codegraph-out/` (SQLite + reports),
-built by the `codegraph` tool. **For any question about how the code is
-structured, wired, or what a change affects, query the graph first — do not
-start by reading source files.**
+This repo has a persistent code graph at `codegraph-out/`, built by the
+`codegraph` tool. It is the source of truth for how the code is put together.
 
-### First, make sure the graph is current
+**Hard rule:** when the user asks how something *works*, where something *is*,
+how the *architecture* is laid out, or what a change *affects* — your FIRST
+action is a `codegraph` command or reading a file inside `codegraph-out/`.
+Do **not** open, `Grep`, or `Glob` the source tree to answer these. `codegraph
+query` reads `codegraph-out/codegraph.db` — that already *is* "reading the
+codegraph folder".
+
+### Worked example
+
+User: *"How does the authentication system work?"*
+
+Do this:
+1. `codegraph query "how does the authentication system work" .`
+2. If thin, `codegraph context "<the main auth symbol it named>" .` and read
+   `codegraph-out/GRAPH_REPORT.md` for where it sits.
+3. Answer from that subgraph, citing `source_file:line` from the output.
+
+Do **NOT** do this: `Grep "auth"`, open `src/auth/*.py`, then summarize.
+
+### Keep the graph current first
 
 ```
 codegraph check-update .        # reports drift
 codegraph update .              # fast, no LLM — run if it drifted
 ```
 
-### Then answer from the graph
+### Commands
 
 | Need | Command |
 |---|---|
@@ -29,15 +46,16 @@ codegraph update .              # fast, no LLM — run if it drifted
 with `file:line`** — that is usually enough to make an edit with zero extra
 file reads.
 
-### When you may read a file directly
+### The ONLY times you open a source file first
 
-- To get the **exact current text** you are about to `Edit` (codegraph gives
-  structure and signatures, not a live diff-ready copy).
-- When `codegraph query` returns `No matching nodes found.` after one retry with
-  key nouns only.
-- For non-code files the graph does not cover well (raw JSON fixtures, binaries).
+1. You have already located the symbol via codegraph and now need its **exact
+   current text** to `Edit` it.
+2. `codegraph query` returned `No matching nodes found.` even after retrying with
+   just the key nouns.
+3. The target is a file the graph does not model (raw JSON fixtures, binaries,
+   generated output).
 
-Reach for `Read` / `Grep` / `Glob` as the fallback, not the first move.
+In every other case: graph first, source second.
 
 ## Project notes
 
