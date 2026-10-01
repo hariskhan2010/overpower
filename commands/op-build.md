@@ -14,6 +14,8 @@ Run the overpower flow:
       is not autonomous; work it with the user.**
    b. `writing-plans` — a plan the user signs off on. Opens `.overpower/`.
    c. `using-git-worktrees` — isolated workspace, green baseline.
+   c2. `running-preflight` — check the plan's assumptions against the real
+      code, docs and tools. No code until it passes.
    d. `autonomous-execution` — run the loop. Dispatch `op-implementer` and
       `op-reviewer` subagents. Respect every hard-stop condition.
    e. `finishing-work` — surface the merge decision to the user.

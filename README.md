@@ -30,8 +30,15 @@ guarantees that can't be automatic become rules a review step checks — see
   `/plugin install overpower` — full automation (session hook, delegates,
   per-edit scope guard).
 - **Cursor:** the repo's `.cursor/rules/overpower.mdc` applies automatically.
-- **Codex / Gemini CLI / Aider / Jules / anything that reads `AGENTS.md`:**
-  nothing to install — `AGENTS.md` routes the agent to the skills.
+- **Codex:** add this repo as a plugin marketplace (`/plugins`) — reads
+  `.codex-plugin/`. Or nothing at all: `AGENTS.md` routes it too.
+- **Gemini CLI:** `gemini extensions install https://github.com/hariskhan2010/overpower`
+  (reads `gemini-extension.json` → `GEMINI.md`).
+- **Kimi Code:** `/plugins install https://github.com/hariskhan2010/overpower`
+  (reads `.kimi-plugin/`, with overpower's vocabulary mapped to Kimi's tools).
+- **Devin CLI:** `devin plugins install hariskhan2010/overpower`.
+- **Aider / Jules / Zed / anything that reads `AGENTS.md`:** nothing to
+  install — `AGENTS.md` routes the agent to the skills.
 - **GitHub Copilot:** `.github/copilot-instructions.md` applies automatically.
 
 Feature matrix per harness: [`SUPPORT.md`](SUPPORT.md).
@@ -57,7 +64,7 @@ only at a **hard stop**:
 `/op-resume` continues an interrupted build from `.overpower/`. `/op-status`
 reports without changing anything.
 
-## The skills (12)
+## The skills (15)
 
 | Skill | Fires when | Does |
 |---|---|---|
@@ -65,18 +72,21 @@ reports without changing anything.
 | `brainstorming` | fuzzy T2/T3 request, before a plan | Idea → agreed spec, evidence-backed |
 | `designing-architecture` | spec agreed, before the plan | **Diagrams** where each part sits, its colour, what it does, what it talks to → `architecture.md` |
 | `writing-plans` | architecture agreed | Verifiable tasks that reference `architecture.md`; opens the durable state file |
+| `scouting-tools` | while writing the plan | Maps the MCP servers / skills / CLIs this session **actually has** to the tasks that need them |
 | `using-git-worktrees` | T2/T3, spec approved | Isolated workspace; checks repo state first |
+| `running-preflight` | plan approved, before any code | Checks every assumption in the plan against the real code, docs and tools — **no code until it passes** |
 | `executing-work` | a plan or a clear task exists | Tier-appropriate flow; verifies real subagent dispatch |
 | `autonomous-execution` | "build it all" / `/op-build` | The driver loop + hard-stop guardrails |
 | `test-driven-development` | writing any implementation | RED-for-the-right-reason → GREEN → REFACTOR |
 | `reviewing-changes` | between tasks / before a fix | Reviews against the plan **and** traces each fix's blast radius |
 | `systematic-debugging` | a test fails / a bug appears | Reproduce → locate → **explain** → fix → record |
 | `finishing-work` | tasks done and reviewed | Verify, merge decision, **archive** state (never delete) |
+| `watching-the-build` | writing `.overpower/` | The line formats the [op-viewer](https://github.com/hariskhan2010/op-viewer) live dashboard reads |
 | `writing-skills` | creating/editing a skill | Keeps skills valid and consistent |
 
 ## Status
 
-**v0.6 — 12 skills, autonomous mode, runs on any agent that reads skill files
+**v0.7 — 15 skills, tool scouting, preflight before code, autonomous mode, runs on any agent that reads skill files
 (not just Claude Code).** Structural pieces verified by `tests/`; behavioral
 pieces by `evals/` — a harness that runs each skill against a real model on its
 target scenario. Still a working draft you tune to how you work — that is the
@@ -86,8 +96,8 @@ demonstrated, not asserted. Used on 4 real builds so far; not yet published.
 ### Verify
 
 ```
-python -m unittest discover -s tests   # 38 file-validity tests — instant
-python evals/run_evals.py              # 14 behavioral cases — ~3 min
+python -m unittest discover -s tests   # 40 file-validity tests — instant
+python evals/run_evals.py              # 16 behavioral cases — ~3 min
 python evals/run_evals.py --rubric     # + a judge-model pass
 ```
 

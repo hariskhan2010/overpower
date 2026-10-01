@@ -61,15 +61,21 @@ Announce the tier in one line: `Tier: T2 (touches routing + the store + a migrat
    skip only for a genuinely single-component change. Writes
    `.overpower/architecture.md`, user signs off.
 3. **Plan.** Use `writing-plans`. Opens `.overpower/progress.md`. Every task that
-   builds a component points at its row in `architecture.md`.
+   builds a component points at its row in `architecture.md`. While writing it,
+   use `scouting-tools` to map the MCP servers / skills / CLIs actually available
+   to the tasks that need them. Tell the user once that they can watch the build
+   live (`watching-the-build`).
 4. **Branch.** Use `using-git-worktrees` (T2+) — it checks the repo is in a
-   state that can take one.
-5. **Build.** Use `executing-work` (or `autonomous-execution`). Delegates for
+   state that can take one, and logs the baseline test run.
+5. **Preflight.** Use `running-preflight` — every assumption in the plan is
+   checked against the real code, docs and tools before any implementation
+   code. No code until it passes.
+6. **Build.** Use `executing-work` (or `autonomous-execution`). Delegates for
    parallelizable tasks where the harness has them; every delegate result is
    verified against a concrete run artifact.
-6. **Review.** Use `reviewing-changes` between task groups and before finishing —
+7. **Review.** Use `reviewing-changes` between task groups and before finishing —
    it runs the change-impact gate on every fix.
-7. **Finish.** Use `finishing-work` — archives `.overpower/`, never deletes it.
+8. **Finish.** Use `finishing-work` — archives `.overpower/`, never deletes it.
 
 **Any time a test fails unexpectedly or a bug appears** — at any tier, in any
 phase — use `systematic-debugging` before attempting a fix.
@@ -78,8 +84,8 @@ phase — use `systematic-debugging` before attempting a fix.
 
 When the user wants the whole feature built with minimal check-ins — "build
 this", "do it all", or the `/op-build` command (or, on a harness without
-commands, just say so) — run the spec + plan + worktree steps *with* the user,
-then hand execution to `autonomous-execution`: it loops through the tasks (with
+commands, just say so) — run the spec + plan + worktree + preflight steps
+*with* the user, then hand execution to `autonomous-execution`: it loops through the tasks (with
 `op-implementer` / `op-reviewer` delegates where available, inline otherwise),
 and only stops at a **hard stop** (scope breach, repeated review failure, an
 unplanned design decision, red tests it can't fix, a new dependency, or anything
@@ -94,7 +100,10 @@ build back up from `.overpower/`; `/op-status` reports without changing anything
 | `brainstorming` | T2/T3, request is fuzzy, before a plan |
 | `designing-architecture` | T2/T3, spec agreed, before the plan — diagram where/look/does/talks-to |
 | `writing-plans` | T2/T3, architecture agreed |
+| `scouting-tools` | while writing a T2/T3 plan — map available MCP servers / skills / CLIs to tasks |
 | `using-git-worktrees` | T2/T3, spec approved; before parallel delegates |
+| `running-preflight` | T2/T3, plan approved and branch ready — before any implementation code |
+| `watching-the-build` | writing to `.overpower/`, or the user wants to watch live |
 | `executing-work` | a plan exists, or a clear T1 task |
 | `autonomous-execution` | run a whole feature end-to-end with minimal check-ins |
 | `test-driven-development` | writing any T1+ implementation code |

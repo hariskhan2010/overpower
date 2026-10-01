@@ -1,0 +1,29 @@
+{
+  "name": "scout-maps-tools-to-tasks",
+  "skills": [
+    "using-overpower",
+    "scouting-tools"
+  ],
+  "scenario": "You are writing the plan for a T2 feature: add a `last_login_at` column to the `users` table (Postgres), set it on login, and show it on the admin users page. The plan has 4 tasks: 1) migration, 2) set it on login, 3) admin page column, 4) end-to-end check.\n\nThis session has these tools available beyond file/shell basics:\n- Neon MCP: describe_table_schema, run_sql, create_branch\n- Figma MCP: get_frame\n- Slack MCP: send_message\n- gh CLI\n\nFill in the tool choices for the plan.",
+  "checks": [
+    {
+      "present_any": [
+        "neon",
+        "describe_table_schema",
+        "create_branch"
+      ],
+      "why": "maps the database tool to the migration task"
+    },
+    {
+      "present_any": [
+        "not used",
+        "considered",
+        "skip(ping)? (the )?slack",
+        "no need for slack",
+        "slack.{0,40}(not|no)"
+      ],
+      "why": "says which tools it considered and left out"
+    }
+  ],
+  "rubric": "PASS if the response maps the Neon MCP tools to the migration task (describe the users table before writing the migration, and/or try it on a branch), does NOT plan to use Slack for anything, says which tools were considered and not used, and flags anything needing auth or that is destructive (run_sql on the real database). FAIL if it ignores the available tools and plans everything by hand, or loads every tool regardless of need."
+}

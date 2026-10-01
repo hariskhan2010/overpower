@@ -38,6 +38,24 @@ class PluginManifestTest(unittest.TestCase):
                 self.assertEqual(e["version"], p["version"],
                                  "marketplace.json version drifted from plugin.json")
 
+    def test_other_harness_manifests_match_plugin(self):
+        """Codex / Gemini / Kimi / Devin install from their own manifest. Each must
+        be valid JSON, name the plugin `overpower`, and carry the same version
+        as plugin.json — a stale one installs release notes that don't exist."""
+        p = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
+        for rel in (".codex-plugin/plugin.json", "gemini-extension.json",
+                    ".kimi-plugin/plugin.json", ".devin-plugin/plugin.json"):
+            path = ROOT / rel
+            self.assertTrue(path.exists(), f"missing {rel}")
+            m = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(m["name"], "overpower", f"{rel}: wrong name")
+            self.assertEqual(m["version"], p["version"], f"{rel}: version drifted from plugin.json")
+        gem = json.loads((ROOT / "gemini-extension.json").read_text(encoding="utf-8"))
+        ctx = (ROOT / gem["contextFileName"]).read_text(encoding="utf-8")
+        self.assertIn("using-overpower", ctx, "Gemini context file must route to using-overpower")
+        kimi = json.loads((ROOT / ".kimi-plugin" / "plugin.json").read_text(encoding="utf-8"))
+        self.assertEqual(kimi["sessionStart"]["skill"], "using-overpower")
+
     def test_hooks_json_is_valid_and_scripts_exist(self):
         h = json.loads((ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
         for event, entries in h["hooks"].items():

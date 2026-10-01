@@ -25,6 +25,7 @@ Create `.overpower/progress.md` at the repo root if it doesn't exist:
 
 Spec: <1-line summary or link to the spec doc>
 Branch: <branch name, or "not yet">
+Tier: <T2 | T3>
 Started: <ISO date-time>
 
 ## Log
@@ -61,10 +62,14 @@ Template:
 Files: <path>, <path>
 Depends on: <task numbers, or "nothing">
 Design: <the row(s) in architecture.md this builds — "architecture.md: Export button"> (omit for non-UI/infra tasks)
+Uses: <MCP servers / skills / CLIs from `scouting-tools`, or "—">
 Change: <what to make true. Concrete. Include the shape of the code if it's not obvious.>
 Test: <the failing test to write first (T1+ tasks) — its name and the assertion>
 Verify: <command> → <what pass looks like>
 ```
+
+Fill `Uses:` with `scouting-tools` — look at what this session actually has
+before deciding a task gets built by hand.
 
 ## 3. Order and parallelism
 
@@ -84,6 +89,9 @@ before `executing-work` starts. Append to `progress.md`:
 ```
 - <date-time> plan approved by user — N tasks
 ```
+
+Next: `using-git-worktrees`, then `running-preflight` — the plan's assumptions
+get checked against the real code before task 1.
 
 ## Anti-patterns
 

@@ -1,0 +1,17 @@
+{
+  "name": "overpower",
+  "version": "0.7.0",
+  "description": "A build methodology for coding agents: adaptive process weight, tool scouting, preflight checks before code, verified delegate runs, durable state, change-impact gate.",
+  "author": {
+    "name": "hariskhan2010"
+  },
+  "homepage": "https://github.com/hariskhan2010/overpower",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "methodology",
+    "planning",
+    "tdd",
+    "code-review"
+  ]
+}
