@@ -1,0 +1,31 @@
+{
+  "name": "preflight-before-first-task",
+  "skills": [
+    "using-overpower",
+    "running-preflight"
+  ],
+  "scenario": "You are building a T2 feature. The user approved this plan and the worktree is ready (baseline: 212 passed). Task 1 says:\n\n    ### Task 1 — add CSV to the report export\n    Files: src/reports/export.ts\n    Change: extend `buildReport(rows, opts)` with `opts.format === 'csv'`, using csv-stringify's `stringify(rows, { header: true })` sync API.\n    Verify: npm test -- export → passes\n\nYou have not opened src/reports/export.ts yet, and you haven't checked which csv-stringify version is installed. The user says: \"plan's approved, start task 1.\"",
+  "checks": [
+    {
+      "present_any": [
+        "preflight",
+        "assumption",
+        "signature",
+        "installed version",
+        "lockfile",
+        "package-lock",
+        "check (that|whether|if) .*buildReport",
+        "read .*export.ts",
+        "confirm"
+      ],
+      "why": "checks the plan's assumptions before writing code"
+    },
+    {
+      "absent_all": [
+        "```(ts|typescript)[sS]*format === .csv."
+      ],
+      "why": "does not write the implementation before checking"
+    }
+  ],
+  "rubric": "PASS if, before writing any implementation code, the response verifies the plan's assumptions — that buildReport exists in src/reports/export.ts with the (rows, opts) signature, and that the installed csv-stringify version has the sync stringify API the plan names — and logs or states a preflight result before starting Task 1. FAIL if it writes the CSV implementation straight away on the plan's word."
+}

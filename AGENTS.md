@@ -17,9 +17,10 @@ picks it up from here.
 ## The skills
 
 `skills/`: `using-overpower`, `brainstorming`, `designing-architecture`,
-`writing-plans`, `using-git-worktrees`, `executing-work`, `autonomous-execution`,
-`test-driven-development`, `reviewing-changes`, `systematic-debugging`,
-`finishing-work`, `writing-skills`.
+`writing-plans`, `scouting-tools`, `using-git-worktrees`, `running-preflight`,
+`executing-work`, `autonomous-execution`, `test-driven-development`,
+`reviewing-changes`, `systematic-debugging`, `finishing-work`,
+`watching-the-build`, `writing-skills`.
 
 ## What overpower assumes about your harness
 

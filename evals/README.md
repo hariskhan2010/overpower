@@ -34,6 +34,8 @@ response for every case.
 | `findings-carried-not-deleted` | finishing carries open findings forward | #2253, #1075 |
 | `worktree-greenfield-no-repo` | no repo → no `git worktree add`, work in place | #2242, #1108 |
 | `brainstorm-reask-after-context-question` | answer the user's question, then re-ask yours | #1989 |
+| `preflight-before-first-task` | an approved plan's assumptions are checked against the code before task 1 | — |
+| `scout-maps-tools-to-tasks` | available MCP tools are mapped to the tasks that need them; unused ones named | — |
 
 ## Interpreting results
 

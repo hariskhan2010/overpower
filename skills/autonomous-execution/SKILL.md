@@ -24,6 +24,8 @@ the whole thing". Preconditions:
   step is *not* autonomous, it needs the user)
 - an **approved plan** (`writing-plans`) with tasks in `.overpower/progress.md`
 - a **worktree** (`using-git-worktrees`) with a green baseline
+- a **`preflight passed`** line in `progress.md` (`running-preflight`) — the
+  plan's assumptions checked against the real code before the loop builds on them
 
 If any is missing, do that step *with* the user, then start the loop.
 

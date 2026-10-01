@@ -1,0 +1,32 @@
+{
+  "name": "overpower",
+  "version": "0.7.0",
+  "description": "A build methodology for coding agents: adaptive process weight, tool scouting, preflight checks before code, verified delegate runs, durable state, change-impact gate.",
+  "author": {
+    "name": "hariskhan2010"
+  },
+  "homepage": "https://github.com/hariskhan2010/overpower",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "methodology",
+    "planning",
+    "tdd",
+    "code-review"
+  ],
+  "skills": "./skills/",
+  "sessionStart": {
+    "skill": "using-overpower"
+  },
+  "skillInstructions": "Kimi Code mapping for overpower vocabulary (see using-overpower → Vocabulary):\n- skills mechanism → the Skill tool.\n- delegate → Agent: subagent_type \"coder\" for op-implementer / op-reviewer briefs (paste agents/<name>.md plus the task text into prompt), \"explore\" for read-only search, \"plan\" for a plan critique. A delegate result counts only with its returned result.\n- asking the user for a decision → AskUserQuestion, 1-4 questions, 2-4 options, recommended first.\n- guard hook → none on Kimi: follow the scope rule yourself; reviewing-changes checks it.\n- Use Read, Write, Edit, Bash, Grep, Glob, FetchURL, WebSearch and MCP tools by their real names.",
+  "interface": {
+    "displayName": "overpower",
+    "shortDescription": "Size the task, check the plan against the code, build test-first, review what a fix changes",
+    "developerName": "hariskhan2010",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ]
+  }
+}

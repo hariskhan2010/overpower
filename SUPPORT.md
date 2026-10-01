@@ -19,9 +19,11 @@ vs. a rule you follow.
 | Harness | Entry | skills | delegate | guard hook | session hook | Tier |
 |---|---|---|---|---|---|---|
 | **Claude Code** | `.claude-plugin/` (install as a plugin) | Skill tool | Task/Agent tool | PostToolUse (`hooks/enforce_scope.py`) | SessionStart | **A — full** |
-| **Codex** (CLI / IDE) | `AGENTS.md` | read file | — | — | — | B |
+| **Codex** (CLI / IDE) | `.codex-plugin/` or `AGENTS.md` | native skills | `spawn_agent` (multi-agent) | — | — | B |
 | **Cursor** | `.cursor/rules/overpower.mdc` + `AGENTS.md` | read file | background agents | — | rule is always-on | B |
-| **Gemini CLI** | `AGENTS.md` / `GEMINI.md` | read file | — | — | — | B |
+| **Gemini CLI** | `gemini-extension.json` → `GEMINI.md`, or `AGENTS.md` | read file | — | — | context file always-on | B |
+| **Kimi Code** | `.kimi-plugin/` | Skill tool | Agent (`coder` / `explore` / `plan`) | — | `sessionStart` skill | B |
+| **Devin CLI** | `.devin-plugin/` | native skills | background agents | — | — | B |
 | **GitHub Copilot** | `.github/copilot-instructions.md` | read file | — | — | instructions always-on | C |
 | **Aider** | `AGENTS.md` (or `--read`) | read file | — | — | — | C |
 | **Jules / Zed / others that read AGENTS.md** | `AGENTS.md` | read file | varies | — | — | B/C |

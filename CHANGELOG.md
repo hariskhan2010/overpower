@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.7.0] — 2026-10-02
+
+Three new skills between "plan" and "build", and native installs for four more
+harnesses.
+
+### Added
+
+- **`scouting-tools`** — while writing a plan, inventory the MCP servers,
+  skills and CLIs this session actually has and map each useful one to the task
+  that needs it (a `Uses:` line per task, plus "considered, not used"). Flags
+  auth and destructive tools before the build, not mid-way.
+- **`running-preflight`** — after the plan is approved and the branch is
+  ready, before any implementation code: every assumption in the plan
+  (functions, signatures, library behaviour at the installed version, schema,
+  config, callers) is checked against the real code; every planned tool makes
+  one harmless call; the plan is audited for coverage, cycles and parallel-group
+  file clashes. A plan change gets a fresh user yes. `autonomous-execution`
+  and `/op-build` now require a `preflight passed` line.
+- **`watching-the-build`** — the `.overpower/` line formats the
+  `op-viewer` live dashboard reads, and how the user opens it. Found by
+  dogfooding: an agent that logs one summary line ("tasks 1–4 done") leaves the
+  board stale for the whole build.
+- **Native installs** for Codex (`.codex-plugin/`), Gemini CLI
+  (`gemini-extension.json` → `GEMINI.md`), Kimi Code (`.kimi-plugin/`, with
+  the vocabulary mapped to Kimi's tools) and Devin (`.devin-plugin/`).
+  `tests/test_plugin_manifest.py` keeps their versions in step with
+  `plugin.json`. **Not yet run in those harnesses** — structure only.
+
+### Changed
+
+- `writing-plans`: the state file gets a `Tier:` line; each task gets a
+  `Uses:` line.
+- `plugin.json` / `marketplace.json` descriptions no longer say "Claude Code
+  only" — untrue since 0.6.0.
+
 ## [0.6.1] — 2026-09-10
 
 Release hygiene — no behaviour change.
