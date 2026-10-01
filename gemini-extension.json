@@ -1,0 +1,6 @@
+{
+  "name": "overpower",
+  "description": "Proportional plan-and-build workflow: spec, research, tool-scout, plan, preflight, TDD, debugging, code review, live dashboard.",
+  "version": "0.2.1",
+  "contextFileName": "GEMINI.md"
+}

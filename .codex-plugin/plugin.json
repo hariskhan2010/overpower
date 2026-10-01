@@ -1,0 +1,19 @@
+{
+  "name": "overpower",
+  "version": "0.2.1",
+  "description": "Proportional plan-and-build workflow: spec, research, tool-scout, plan, preflight verification before code, TDD, subagent waves, debugging, code review, live dashboard.",
+  "author": { "name": "hariskhan2010" },
+  "license": "MIT",
+  "keywords": ["skills", "workflow", "planning", "tdd", "subagents", "debugging", "code-review", "mcp"],
+  "skills": "./skills/",
+  "hooks": {},
+  "interface": {
+    "displayName": "overpower",
+    "shortDescription": "Plan, verify, build, debug and review — as much process as the task needs",
+    "longDescription": "Sizes every task first, then runs spec, research, tool-scouting, a verified plan, test-first building in parallel waves, systematic debugging and code review — with a live dashboard of the build.",
+    "developerName": "hariskhan2010",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "defaultPrompt": ["Let's add a feature to this project.", "Help me debug this failing test."]
+  }
+}

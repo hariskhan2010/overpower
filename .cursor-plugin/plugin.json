@@ -1,0 +1,11 @@
+{
+  "name": "overpower",
+  "displayName": "overpower",
+  "description": "Proportional plan-and-build workflow: spec, research, tool-scout, plan, preflight, TDD, subagents, debugging, code review, live dashboard.",
+  "version": "0.2.1",
+  "author": { "name": "hariskhan2010" },
+  "license": "MIT",
+  "keywords": ["skills", "workflow", "planning", "tdd", "debugging", "code-review"],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks-cursor.json"
+}

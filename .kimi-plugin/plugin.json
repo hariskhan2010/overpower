@@ -1,0 +1,32 @@
+{
+  "name": "overpower",
+  "version": "0.2.1",
+  "description": "Proportional plan-and-build workflow: spec, research, tool-scout, plan, preflight, TDD, subagents, debugging, code review, live dashboard.",
+  "author": {
+    "name": "hariskhan2010"
+  },
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "workflow",
+    "planning",
+    "tdd",
+    "debugging",
+    "code-review"
+  ],
+  "skills": "./skills/",
+  "sessionStart": {
+    "skill": "using-overpower"
+  },
+  "skillInstructions": "Kimi Code tool mapping for overpower skills:\n- \"ask the user\" → AskUserQuestion, 1-4 questions, 2-4 options each, recommended option first.\n- \"dispatch a subagent\" → Agent: subagent_type \"coder\" for implementer/reviewer briefs, \"explore\" for read-only search, \"plan\" for design or plan critique. Paste the full brief into prompt.\n- \"load a skill\" → the Skill tool.\n- \"todo list\" → TodoList.\n- Use Read, Write, Edit, Bash, Grep, Glob, FetchURL, WebSearch and MCP tools by their real names.",
+  "interface": {
+    "displayName": "overpower",
+    "shortDescription": "Plan, verify, build, debug and review — as much process as the task needs",
+    "developerName": "hariskhan2010",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ]
+  }
+}

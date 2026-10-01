@@ -1,0 +1,8 @@
+{
+  "name": "overpower",
+  "description": "Proportional plan-and-build workflow for Claude Code: spec, research, tool-scouting (finds the MCP servers and skills that fit), architecture, plan, preflight verification before any code, TDD, subagent waves, debugging, code review, and a live dashboard.",
+  "version": "0.2.1",
+  "author": { "name": "hariskhan2010" },
+  "license": "MIT",
+  "keywords": ["skills", "workflow", "planning", "tdd", "subagents", "debugging", "code-review", "mcp"]
+}

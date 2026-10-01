@@ -1,0 +1,11 @@
+{
+  "name": "overpower",
+  "owner": { "name": "hariskhan2010" },
+  "plugins": [
+    {
+      "name": "overpower",
+      "source": "./",
+      "description": "Proportional plan-and-build workflow: spec → research → tool-scout → plan → preflight → build in waves → review, with a live dashboard."
+    }
+  ]
+}
